@@ -14,7 +14,7 @@ function rotatePlanet(timestamp) {
 rotatePlanet();
 
 // Animação de órbita do OVNI
-const radiusX= 300;
+const radiusX= 250;
 const radiusY = 60;
 const speed = 0.002;
 const ovni = document.querySelector('.ovni');
@@ -32,7 +32,7 @@ function orbitingAnimation(timestamp) {
     ovni.style.transform = `translate(${x - 25}px, ${y - 25}px)`; // Ajuste para centralizar o OVNI
 
     if (y > centerY) {
-        ovni.style.zIndex = 1; // OVNI atrás do planeta
+        ovni.style.zIndex = 0; // OVNI atrás do planeta
     } else {
         ovni.style.zIndex = 2; // OVNI à frente do planeta
 
