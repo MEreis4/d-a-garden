@@ -35,8 +35,14 @@ function orbitingAnimation(timestamp) {
         ovni.style.zIndex = 0; // OVNI atrás do planeta
     } else {
         ovni.style.zIndex = 2; // OVNI à frente do planeta
-
     }
     requestAnimationFrame(orbitingAnimation);
+
+    //manipulação da velocidade
+    document.addListenerEvent('keypress', (event)=>{
+        if (event.key === 'Left'){
+            console.log(event.key)
+        }
+    })
 }
 orbitingAnimation();
