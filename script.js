@@ -40,7 +40,7 @@ function orbitingAnimation(timestamp) {
 
     //manipulação da velocidade
     document.addListenerEvent('keypress', (event)=>{
-        if (event.key === 'Left'){
+        if (event.key === 'ArrowLeft'){
             console.log(event.key)
         }
     })
