@@ -3,6 +3,7 @@ body{
     padding: 0;
     background-color: #000;
     align-items: center;
+    font-family: Pixeloid Sans, sans-serif;
 }
 .sky{
     width: 100vw;
@@ -23,11 +24,12 @@ body{
     z-index: 1;
 }
 .ovni{
-    background-color: yellowgreen;
-    width: 100px;
-    height: 100px;
+    background-image: url('img/ovni.png');
+    background-size: cover;
+    width: 95px;
+    height: 80px;
     border-radius: 50%;
     position: absolute;
     top: -20%;
-    left: -4%;
+    left: -2%;
 }
