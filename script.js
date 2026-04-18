@@ -43,7 +43,7 @@ function rotatePlanet() {
 rotatePlanet();
 
 // Animação de órbita do OVNI
-const radiusX = 250;
+const radiusX = 450;
 const radiusY = 60;
 const speed = 0.0004;
 const ovni = document.querySelector(".ovni");
