@@ -1,4 +1,6 @@
 body{
+
+    image-rendering: pixelated;
     margin: 0;
     padding: 0;
     background-color: #000;
@@ -14,6 +16,7 @@ body{
     top: 12vh;
     justify-content: center;
     align-items: center;
+    filter: hue-rotate();
 }
 .little-planet{
     background-image: url('img/little-planet.png');
