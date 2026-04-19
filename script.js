@@ -99,3 +99,55 @@ function adjustPlanetRotation() {
   });
 }
 adjustPlanetRotation();
+
+// Animação de idle do planeta usando JavaScript para controlar os frames da sprite (sim, usei IA).
+
+// 1. Função auxiliar para criar as pausas (delay)
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function planetIdleAnimation() {
+  const sprites = [
+    { x: -8, y: -8 },
+    { x: -749, y: -8 },
+    { x: -8, y: -744 },
+    { x: -749, y: -744 },
+    { x: -1490, y: -8 },
+    { x: -1490, y: -744 },
+    { x: -8, y: -8 }, // Fim do Great Vulcan (Index 6)
+    { x: -8, y: -1480 },
+    { x: -749, y: -1480 },
+    { x: -1490, y: -1480 },
+    { x: -2231, y: -8 },
+    { x: -2231, y: -744 },
+    { x: -8, y: -8 }, // Fim do Little Vulcan (Index 12)
+  ];
+
+  const greatVulcan = sprites.slice(0, 7);
+  const littleVulcan = sprites.slice(7, 13);
+
+  // Função interna para rodar uma sequência específica
+  async function playSequence(sequence) {
+    for (const frame of sequence) {
+      littlePlanet.style.backgroundPosition = `${frame.x}px ${frame.y}px`;
+      await wait(100); // Velocidade da animação (100ms por frame)
+    }
+  }
+
+  // Loop infinito do ciclo completo
+  while (true) {
+    // 1. Anima o Great Vulcan
+    await playSequence(greatVulcan);
+
+    // 2. Espera 3 segundos
+    await wait(3000);
+
+    // 3. Anima o Little Vulcan
+    await playSequence(littleVulcan);
+
+    // 4. Espera 5 segundos antes de reiniciar o ciclo
+    await wait(5000);
+  }
+}
+
+// Inicia a animação apenas uma vez
+planetIdleAnimation();

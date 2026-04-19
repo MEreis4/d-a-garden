@@ -16,13 +16,13 @@ body{
     top: 12vh;
     justify-content: center;
     align-items: center;
-    filter: hue-rotate();
+    filter: hue-rotate(20deg);
+    overflow: hidden;
 }
 .little-planet{
     width: 725px; height: 720px;
     background: url('img/css_sprites.png') -8px -8px;
     z-index: 1;
-    animation: planetIdle 1s steps(1) infinite;
 }
 .ovni{
     background-image: url('img/ovni.png');
@@ -33,15 +33,4 @@ body{
     position: absolute;
     top: -20%;
     left: -2%;
-}
-
-/* sprites do little-planet */
-
-@keyframes planetIdle{
-    0% {background-position: -8px -8px;}
-    20% {background-position: -749px -8px;}
-    40% {background-position: -8px -744px;}
-    60% {background-position: -749px -744px;}
-    80% {background-position: -1490px -8px;}
-    100% {background-position: -1490px -744px;}
 }
