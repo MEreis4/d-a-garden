@@ -21,7 +21,7 @@ body{
 }
 .little-planet{
     width: 725px; height: 720px;
-    background: url('img/css_sprites.png') -8px -8px;
+    background: url('img/preplanet_sprites.png') -8px -8px;
     z-index: 1;
 }
 .ovni{
@@ -33,4 +33,12 @@ body{
     position: absolute;
     top: -20%;
     left: -2%;
+}
+
+.tails{
+    background: url(img/tails-sprites.png);
+    width: 200px;
+    height: 200px;
+    background-position: -5px -2920px;;
+    z-index: 3;
 }
