@@ -1,5 +1,5 @@
 // Animação de rotação do Little Planet
-const littlePlanet = document.querySelector(".little-planet");
+const littlePlanet = document.querySelector(".little-planet"); //querySelector pega o primeiro elemento no documento com essa classe css
 let start;
 let speedLP = 0.2; // Velocidade de rotação do Little Planet
 let angleLP = 0; // angulo inicial do Little Planet
