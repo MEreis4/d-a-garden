@@ -13,6 +13,7 @@ class Personagem {  // classe base (pai)
     this.element.style.position = "absolute";
     this.element.style.background = `url(${informacoes.sprite})`;
     this.element.style.backgroundSize = "cover";
+    this.element.style.backgroundPosition = "-5px -2940px"
 
     const dAContainer = document.querySelector(".sky"); // (lembrete) querySelector pega o primeiro elemento no documento com essa classe css
     dAContainer.appendChild(this.element);
@@ -87,7 +88,7 @@ class Tails extends Personagem {    // classe filha
   constructor(informacoes) {
     super(informacoes);     // super() chama os parametros da classe pai para que funcionem nessa classe também.
     this.element.style.width = "200px";
-    this.element.style.height = "110px";
+    this.element.style.height = "145px";
   }
 }
 
