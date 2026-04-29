@@ -90,6 +90,28 @@ class Tails extends Personagem {    // classe filha
     this.element.style.width = "200px";
     this.element.style.height = "145px";
   }
+
+  mover (){
+    if(this.isDead) return;
+    this.posY += this.spdY;
+    let positionY = Math.floor(Math.random() * 3)
+    console.log(positionY)
+    if (positionY === 2){
+      console.log(this.name + " está subindo")
+      this.spdY = -1
+    }
+    if (positionY === 0){
+      console.log(this.name + " está descendo")
+      this.spdY = 1
+    }
+    if (positionY === 1) {
+      console.log(this.name + " está indo reto")
+      this.spdY = 0;
+    }
+
+    this.posX += this.spdX;
+    
+  }
 }
 
 const tails = new Tails({   // aqui eu estou criando um novo objeto que herda da classe Tails (filha), que também herda da classe Personagens (pai)
