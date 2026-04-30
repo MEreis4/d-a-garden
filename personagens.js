@@ -10,10 +10,9 @@ class Personagem {  // classe base (pai)
 
     this.element = document.createElement("div");   //element é uma propriedade nativa de uma classe, ou seja, não precisa dar seu parâmetro na hora de criar o objeto
     this.element.classList.add(informacoes.nomeClasseCss);
-    this.element.style.position = "absolute";
-    this.element.style.background = `url(${informacoes.sprite})`;
-    this.element.style.backgroundSize = "cover";
-    this.element.style.backgroundPosition = "-5px -2940px"
+    // this.element.style.position = "absolute";
+    // this.element.style.background = `url(${informacoes.sprite})`;
+    // this.element.style.backgroundSize = "cover";
 
     const dAContainer = document.querySelector(".sky"); // (lembrete) querySelector pega o primeiro elemento no documento com essa classe css
     dAContainer.appendChild(this.element);
@@ -87,31 +86,64 @@ class Personagem {  // classe base (pai)
 class Tails extends Personagem {    // classe filha 
   constructor(informacoes) {
     super(informacoes);     // super() chama os parametros da classe pai para que funcionem nessa classe também.
-    this.element.style.width = "200px";
-    this.element.style.height = "145px";
+    this.timerDeMudanca = 0;
   }
 
-  mover (){
+  async mover (){
     if(this.isDead) return;
-    this.posY += this.spdY;
-    let positionY = Math.floor(Math.random() * 3)
-    console.log(positionY)
-    if (positionY === 2){
-      console.log(this.name + " está subindo")
-      this.spdY = -1
-    }
-    if (positionY === 0){
-      console.log(this.name + " está descendo")
-      this.spdY = 1
-    }
-    if (positionY === 1) {
-      console.log(this.name + " está indo reto")
-      this.spdY = 0;
-    }
+    const spritesheet = [
+      {x:-5, y: -2920},
+      {x:-5, y: -773},
+      {x:-5, y: -1462},
+      {x:-5, y: -3650},
+      {x:-5, y: -4380},
+      {x:-5, y: -5},
+      {x:-5, y: -2191},
+      {x:-5, y: -5110},
+      {x:-5, y: -5840}
+    ]
+    const idleTails = spritesheet.slice(0,2);
+    const downTails = spritesheet.slice(3,5);
+    const upTails = spritesheet.slice(6,8);
 
-    this.posX += this.spdX;
+    const playSequence = async (sequence) => {
+      for (const frame of sequence){
+        this.element.style.backgroundPosition = `${frame.x}px ${frame.y}px`;
+      }
+    }
     
+    this.timerDeMudanca--;
+
+    if(this.timerDeMudanca <= 0){
+      let positionY = Math.floor(Math.random() * 3)
+
+      if (positionY === 2){
+        console.log(this.name + " está subindo");
+        this.spdY = -1.5;
+      await playSequence(upTails);
+      }
+      else if (positionY === 0){
+        console.log(this.name + " está descendo")
+        this.spdY = 1.5;
+        await playSequence(downTails);
+      }
+      else {
+        console.log(this.name + " está indo reto")
+        this.spdY = 0;
+        await playSequence(idleTails);
+      }
+      
+      
+      this.timerDeMudanca = Math.floor(Math.random() * 60) + 30;
+    }
+    
+    this.posY += this.spdY;
+    this.posX += this.spdX;
+
+    if(this.posY < 20) this.posY = 20;
+    if (this.posY > 500) this.posY = 500;
   }
+  
 }
 
 const tails = new Tails({   // aqui eu estou criando um novo objeto que herda da classe Tails (filha), que também herda da classe Personagens (pai)
