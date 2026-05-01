@@ -37,10 +37,9 @@ body{
 
 .tails{
     background: url(img/tails-sprites.png);
-    background-position: -5px -2920px;
     position: absolute;
-    background-size: cover;
-    width: 200px;
-    height: 145px;
+    width: 1080px;
+    height: 720px;
+    transform: scale(0.5);
     z-index: 3;
 }
