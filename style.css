@@ -40,6 +40,5 @@ body{
     position: absolute;
     width: 1080px;
     height: 720px;
-    transform: scale(0.5);
     z-index: 3;
 }
