@@ -7,6 +7,8 @@ class Personagem {  // classe base (pai)
     this.spdY = informacoes.spdY;
     this.isDead = informacoes.isDead;
     this.isRespawning = false;
+    this.scale = informacoes.scale || 1;
+    this.direcao = 1;
 
     this.element = document.createElement("div");   //element é uma propriedade nativa de uma classe, ou seja, não precisa dar seu parâmetro na hora de criar o objeto
     this.element.classList.add(informacoes.nomeClasseCss);
@@ -19,34 +21,28 @@ class Personagem {  // classe base (pai)
 
     this.render();
   }
-  // determinar posição do personagem
+
+  // determina a posição do personagem
   render() {
     if (this.isDead) return;
-    this.element.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
+
+    const flipX = this.scale * this.direcao;
+
+    this.element.style.transform = `translate(${this.posX}px, ${this.posY}px) scale(${flipX}, ${this.scale})`;
     console.log(`Rendering at ${this.posX}, ${this.posY}`);
   }
 
-  // animarSprite(larguraDoFrame, frameAtual) {
-  //     if (this.isDead) return;
-  //     let posicaoX = -(frameAtual * larguraDoFrame);
-  //     this.element.style.backgroundPosition = `${posicaoX}px 0px`;
-  // }
-  
-  //verificar se o personagem está dentro ou fora da tela, se estiver, exclui o personagem
+  // checa os limites da borda e "mata" (deleta) o personagem caso tenha passado dela.
   checarLimites() {
     const larguraTela = window.innerWidth;
     const alturaTela = window.innerHeight;
-
-    if (
-      this.posX < -1000 ||
-      this.posX > larguraTela + 100 ||
-      this.posY < -100 ||
-      this.posY > alturaTela + 100
-    ) {
+    if ( (this.spdX > 0 && this.posX > larguraTela + 1200) || 
+         (this.spdX < 0 && this.posX < -1200) ) {
       this.element.remove();
       this.isDead = true;
       this.isRespawning = false;
-      this.posX = -1000;
+      this.posX = 0;
+      this.posY = 0;
       console.log(this.isDead);
       console.log(this.name + " is currently dead :>");
     }
@@ -54,13 +50,32 @@ class Personagem {  // classe base (pai)
 
   //respawnar personagem depois de um período de tempo aleatório caso tenha sido excluido
   async respawn() {
-    let cooldown = await Math.floor(Math.random() * 20001);
     if (!this.isDead || this.isRespawning) return;
+    const larguraTela = window.innerWidth;
+    const alturaTela = window.innerHeight;
+    let cooldown = Math.floor(Math.random() * 15000) + 5000; // Entre 5 e 20 segundos
 
     this.isRespawning = true;
     try {
-      console.log(this.name + " cooldown: " + cooldown)
+      console.log(this.name + " cooldown: " + cooldown);
       await wait(cooldown);
+
+      // 50% de chance de vir da esquerda
+      const virDaEsquerda = Math.random();
+      console.log(virDaEsquerda);
+
+      if (virDaEsquerda > 0.5){
+        this.posX = -1000;
+        this.spdX = Math.abs(this.spdX); // Garante que a velocidade X seja positiva (vai p/ direita)
+        this.direcao = 1; // Olhando para a direita
+      } else{
+        this.posX = larguraTela + 1000;
+        this.spdX = -Math.abs(this.spdX);
+        this.direcao = -1; // Olhando para a esquerda (flip)
+      }
+
+      // this.posY = Math.floor(Math.random() * (alturaTela - 200)) + 100;
+
       this.isDead = false;
       this.isRespawning = false;
 
@@ -86,64 +101,79 @@ class Personagem {  // classe base (pai)
 class Tails extends Personagem {    // classe filha 
   constructor(informacoes) {
     super(informacoes);     // super() chama os parametros da classe pai para que funcionem nessa classe também.
+    
+    // 1. Variáveis de Estado
     this.timerDeMudanca = 0;
+    
+    // 2. Variáveis de Animação
+    this.frameTimer = 0; // Conta o tempo para trocar de quadro
+    this.frameIndex = 0; // O quadro atual (0, 1, 2...)
+    
+    // Deixamos a array montada aqui para não recriar todo frame
+    this.spritesheet = [
+      {x:-5, y: -2920}, {x:-5, y: -732}, {x:-5, y: -1462}, {x:-5, y: -732},   // idle
+      {x:-5, y: -3650}, {x:-5, y: -4380}, {x:-5, y: -5}, {x:-5, y: -4380},    // down
+      {x:-5, y: -2191}, {x:-5, y: -5110}, {x:-5, y: -5840}, {x:-5, y: -5110}  // up
+    ];
+    
+    this.idleTails = this.spritesheet.slice(0,4);
+    this.downTails = this.spritesheet.slice(4,8);
+    this.upTails = this.spritesheet.slice(8, this.spritesheet.length);
+    console.log(this.idleTails, this.downTails, this.upTails)
+    
+    // Define a animação inicial
+    this.animacaoAtual = this.idleTails;
   }
 
-  async mover (){
+  mover (){
     if(this.isDead) return;
-    const spritesheet = [
-      {x:-5, y: -2920},
-      {x:-5, y: -773},
-      {x:-5, y: -1462},
-      {x:-5, y: -3650},
-      {x:-5, y: -4380},
-      {x:-5, y: -5},
-      {x:-5, y: -2191},
-      {x:-5, y: -5110},
-      {x:-5, y: -5840}
-    ]
-    const idleTails = spritesheet.slice(0,2);
-    const downTails = spritesheet.slice(3,5);
-    const upTails = spritesheet.slice(6,8);
-
-    const playSequence = async (sequence) => {
-      for (const frame of sequence){
-        this.element.style.backgroundPosition = `${frame.x}px ${frame.y}px`;
-      }
-    }
     
+    // momentos das animações
     this.timerDeMudanca--;
 
     if(this.timerDeMudanca <= 0){
-      let positionY = Math.floor(Math.random() * 3)
+      let positionY = Math.floor(Math.random() * 3);
 
       if (positionY === 2){
-        console.log(this.name + " está subindo");
         this.spdY = -1.5;
-      await playSequence(upTails);
+        this.animacaoAtual = this.upTails;
       }
       else if (positionY === 0){
-        console.log(this.name + " está descendo")
         this.spdY = 1.5;
-        await playSequence(downTails);
+        this.animacaoAtual = this.downTails;
       }
       else {
-        console.log(this.name + " está indo reto")
         this.spdY = 0;
-        await playSequence(idleTails);
+        this.animacaoAtual = this.idleTails;
       }
       
-      
+      this.frameIndex = 0; // Reseta a animação ao mudar de estado
       this.timerDeMudanca = Math.floor(Math.random() * 60) + 30;
+    }
+
+    // toca-frames
+    this.frameTimer--; // vai diminuindo dependendo do tempo que eu decidir no final do if
+    
+    if(this.frameTimer <= 0) {
+        // Pula para o próximo quadro
+        this.frameIndex++;
+        
+        // Se passou do limite da array, volta para o começo (faz o loop da animação)
+        if(this.frameIndex >= this.animacaoAtual.length) {
+            this.frameIndex = 0;
+        }
+        
+        // Pega as coordenadas X e Y do quadro atual
+        let frame = this.animacaoAtual[this.frameIndex];
+        this.element.style.backgroundPosition = `${frame.x}px ${frame.y}px`;
+        
+        // Define a velocidade da animação do sprite (aumente para ficar mais lento)
+        this.frameTimer = 2; 
     }
     
     this.posY += this.spdY;
     this.posX += this.spdX;
-
-    if(this.posY < 20) this.posY = 20;
-    if (this.posY > 500) this.posY = 500;
   }
-  
 }
 
 const tails = new Tails({   // aqui eu estou criando um novo objeto que herda da classe Tails (filha), que também herda da classe Personagens (pai)
@@ -152,8 +182,9 @@ const tails = new Tails({   // aqui eu estou criando um novo objeto que herda da
   sprite: "img/tails-sprites.png",
   posX: -1000,
   posY: 0,
-  spdX: 3,
+  spdX: 8,
   spdY: 0,
+  scale: 0.2,
   isDead: false
 });
 
