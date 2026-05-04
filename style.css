@@ -4,7 +4,7 @@ body{
     padding: 0;
     background-color: #000;
     align-items: center;
-    font-family: Pixeloid Sans, sans-serif;
+    font-family: "SonicMenuFont", sans-serif;
     overflow: hidden;
 }
 .sky{
@@ -40,6 +40,48 @@ body{
     position: absolute;
     width: 1080px;
     height: 720px;
-    transform: scale(0.5);
     z-index: 3;
+}
+
+.sonic-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  /* Azul profundo típico da SEGA */
+  background-color: #000000; 
+  text-align: center;
+  /* A animação: dura 1.5s, dividida em 4 blocos de cor */
+  /* animation: megaDriveFade 1s steps(4) forwards; */
+  pointer-events: none; /* Garante que você possa clicar no que está atrás */
+
+  /* Texto: */
+  h2{
+    color:white;
+    margin-top: 20rem;
+  }
+}
+
+@keyframes megaDriveFade {
+  0% {
+    opacity: 1;
+    background-color: #000000; /* Começa no preto */
+  }
+  50% {
+    opacity: 0.5;
+    background-color: #0036e7b0; /* Fica invisível */
+  }
+  100% {
+    opacity: 0;
+    background-color: transparent; /* Fica invisível */
+  }
+}
+
+@font-face {
+  font-family: "SonicMenuFont";
+  src: url(fonts/sonic-cd-menu-font.otf);
+  font-weight: normal;
+  font-style: normal;
 }

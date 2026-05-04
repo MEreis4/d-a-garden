@@ -151,3 +151,35 @@ async function planetIdleAnimation() {
 
 // Inicia a animação apenas uma vez
 planetIdleAnimation();
+
+// Tela de Carregamento
+async function loadingScreen() {
+  progress = 0;
+
+  const loadingOverlay = document.querySelector(".sonic-overlay");
+
+  const images = [
+    { nome: "Present Planet", src: "img/preplanet_sprites.png" },
+    { nome: "Ovni", src: "img/ovni.png" },
+    { nome: "Tails", src: "img/tails-sprites.png" },
+  ];
+
+  const loaders = images.map(({ nome: name, src: src }) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = src;
+
+      img.onload = () => {
+        progress++;
+        console.log(name + " loaded sucessfuly");
+      };
+
+      resolve();
+    }) && wait(5000);
+  });
+
+  await Promise.all(loaders);
+
+  loadingOverlay.style.animation = "megaDriveFade 1s steps(4) forwards";
+}
+loadingScreen();
