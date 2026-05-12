@@ -56,8 +56,6 @@ body{
 
 .sonic-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   z-index: 1000;
@@ -82,7 +80,7 @@ body{
   }
 }
 
-@keyframes megaDriveFade {
+@keyframes megaDriveFadeIn {
   0% {
     opacity: 1;
     background-color: #000000; /* Começa no preto */
@@ -94,6 +92,15 @@ body{
   100% {
     opacity: 0;
     background-color: transparent; /* Fica invisível */
+  }
+}
+@keyframes megaDriveFadeOut {
+  from {
+    opacity: 1;
+    background-color: #000000; /* Começa no preto */
+  }
+  to {
+    display: none;
   }
 }
 

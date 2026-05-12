@@ -37,7 +37,7 @@ class Personagem {  // classe base (pai)
     const larguraTela = window.innerWidth;
     const alturaTela = window.innerHeight;
     if ( (this.spdX > 0 && this.posX > larguraTela + 1200) || 
-         (this.spdX < 0 && this.posX < -1200) ) {
+         (this.spdX < 0 && this.posX < -10000) ) {
       this.element.remove();
       this.isDead = true;
       this.isRespawning = false;

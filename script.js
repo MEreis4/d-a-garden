@@ -158,19 +158,19 @@ const sonicWaiting = document.querySelector(".sonic-loading");
 const loadingOverlay = document.querySelector(".sonic-overlay");
 
 const sonicSprites = [
-  {x: -2964, y: -10},
-  {x: -2223, y: -10},
-  {x: -744, y: -10},
-  {x: -1483, y: -10},
-  {x: -7, y: -10}
-]
+  { x: -2964, y: -10 },
+  { x: -2223, y: -10 },
+  { x: -744, y: -10 },
+  { x: -1483, y: -10 },
+  { x: -7, y: -10 },
+];
 
 async function loadingScreen() {
   let progress = 0;
 
- async function playSequence(sequence){
-    while (isLoading){
-      for (const frame of sequence){
+  async function playSequence(sequence) {
+    while (isLoading) {
+      for (const frame of sequence) {
         sonicWaiting.style.backgroundPosition = `${frame.x}px, ${frame.y}px`;
         await wait(100);
       }
@@ -183,7 +183,7 @@ async function loadingScreen() {
     { nome: "Present Planet", src: "img/preplanet_sprites.png" },
     { nome: "Ovni", src: "img/ovni.png" },
     { nome: "Tails", src: "img/tails-sprites.png" },
-    { nome: "Dubious Depths", src: "audio/dubious-depths.mp3" }
+    { nome: "Dubious Depths", src: "audio/dubious-depths.mp3" },
   ];
 
   const loaders = assets.map(({ nome: name, src: src }) => {
@@ -192,32 +192,37 @@ async function loadingScreen() {
       if (src.endsWith(".png")) ass = new Image();
       else if (src.endsWith(".mp3")) ass = new Audio();
 
-      
       const afterLoad = () => {
         progress++;
         console.log(name + " loaded sucessfuly");
         resolve();
       };
-      
+
       if (src.endsWith(".mp3")) ass.oncanplaythrough = afterLoad;
       if (src.endsWith(".png")) ass.onload = afterLoad;
-      
+
       ass.src = src;
     });
   });
-  
-  await Promise.all(loaders);
-  
+
+  await Promise.all(loaders); // && await wait(5000);
+
   isLoading = false;
   console.log(progress + " assets loaded!");
-  loadingOverlay.style.animation = "megaDriveFade 1s steps(4) forwards";
+  document.querySelector(".sonic-overlay h2").remove();
+  loadingOverlay.insertAdjacentHTML("afterbegin", "<h2>Press Start</h2>");
+  if (!isLoading) {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        const music = new Audio("audio/dubious-depths.mp3");
+        music.loop = true;
+        music.play();
+        loadingOverlay.style.animation = "megaDriveFadeIn 1s steps(4) forwards";
+      }
+    });
+  }
 }
 loadingScreen();
 
-
-function playAudio(){
-  const dubiousDepths = new Audio('audio/dubious-depths.mp3');
-  dubiousDepths.loop = true;
-  dubiousDepths.play();
-}
+function playAudio() {}
 playAudio();
