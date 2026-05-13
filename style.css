@@ -43,25 +43,27 @@ body{
     z-index: 3;
 }
 
+/* tela de carregamento */
 .sonic-loading{
   background: url(img/sonicLoading-sprites.png);
   /* background-position: -2964px -10px; */
   width: 600px;
   height: 700px;
-  position: absolute;
-  top: 20%;
-  left: 33%;
+  position: relative;
   transform: scale(0.3);
 }
 
 .sonic-overlay {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 1000;
-  /* Azul profundo típico da SEGA */
   background-color: #000000; 
   text-align: center;
+  align-items: center;
+  justify-content: center;
   /* A animação: dura 1.5s, dividida em 4 blocos de cor */
   /* animation: megaDriveFade 1s steps(4) forwards; */
   pointer-events: none; /* Garante que você possa clicar no que está atrás */
@@ -69,7 +71,7 @@ body{
   /* Texto: */
   h2{
     color:white;
-    margin-top: 20rem;
+    /* margin-top: 20rem; */
   }
   h5{
     color: gray;
@@ -80,6 +82,7 @@ body{
   }
 }
 
+/* animações */
 @keyframes megaDriveFadeIn {
   0% {
     opacity: 1;
@@ -104,6 +107,8 @@ body{
   }
 }
 
+
+/* fontes */
 @font-face {
   font-family: "SonicMenuFont";
   src: url(fonts/sonic-cd-menu-font.otf);

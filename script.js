@@ -6,6 +6,7 @@ let angleLP = 0; // angulo inicial do Little Planet
 let isRotatingtoLeft = false; // Variável para controlar o estado de rotação do Little Planet para a esquerda
 let isRotatingtoRight = false; // Variável para controlar o estado de rotação do Little Planet para a direita
 
+// RODAR O PLANETA
 function rotatePlanet() {
   if (!littlePlanet) return;
   let speedLpLimitor = 20; // Limite para a velocidade de rotação
@@ -152,7 +153,7 @@ async function planetIdleAnimation() {
 // Inicia a animação apenas uma vez
 planetIdleAnimation();
 
-// Tela de Carregamento
+// TELA DE CARREGAMENTO
 let isLoading = true;
 const sonicWaiting = document.querySelector(".sonic-loading");
 const loadingOverlay = document.querySelector(".sonic-overlay");
@@ -169,7 +170,7 @@ async function loadingScreen() {
   let progress = 0;
 
   async function playSequence(sequence) {
-    while (isLoading) {
+    while (true) {
       for (const frame of sequence) {
         sonicWaiting.style.backgroundPosition = `${frame.x}px, ${frame.y}px`;
         await wait(100);
@@ -212,7 +213,13 @@ async function loadingScreen() {
   document.querySelector(".sonic-overlay h2").remove();
   loadingOverlay.insertAdjacentHTML("afterbegin", "<h2>Press Start</h2>");
   if (!isLoading) {
+    let teclaPressionada = false;
+
     document.addEventListener("keydown", (event) => {
+      if (teclaPressionada) return;
+      console.log('Tecla pressionada uma única vez!');
+
+      teclaPressionada = true;
       if (event.key === "Enter") {
         const music = new Audio("audio/dubious-depths.mp3");
         music.loop = true;
@@ -223,6 +230,3 @@ async function loadingScreen() {
   }
 }
 loadingScreen();
-
-function playAudio() {}
-playAudio();
