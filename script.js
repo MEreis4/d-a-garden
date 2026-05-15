@@ -166,6 +166,8 @@ const sonicSprites = [
   { x: -7, y: -10 },
 ];
 
+let teclaSairdoLoading = false;
+
 async function loadingScreen() {
   let progress = 0;
 
@@ -184,7 +186,7 @@ async function loadingScreen() {
     { nome: "Present Planet", src: "img/preplanet_sprites.png" },
     { nome: "Ovni", src: "img/ovni.png" },
     { nome: "Tails", src: "img/tails-sprites.png" },
-    { nome: "Dubious Depths", src: "audio/dubious-depths.mp3" },
+    { nome: "Dubious Depths", src: "audio/dd-present.mp3" },
   ];
 
   const loaders = assets.map(({ nome: name, src: src }) => {
@@ -213,15 +215,13 @@ async function loadingScreen() {
   document.querySelector(".sonic-overlay h2").remove();
   loadingOverlay.insertAdjacentHTML("afterbegin", "<h2>Press Start</h2>");
   if (!isLoading) {
-    let teclaPressionada = false;
-
     document.addEventListener("keydown", (event) => {
-      if (teclaPressionada) return;
+      if (teclaSairdoLoading) return;
       console.log('Tecla pressionada uma única vez!');
 
-      teclaPressionada = true;
+      teclaSairdoLoading = true;
       if (event.key === "Enter") {
-        const music = new Audio("audio/dubious-depths.mp3");
+        const music = new Audio("audio/dd-present.mp3");
         music.loop = true;
         music.play();
         loadingOverlay.style.animation = "megaDriveFadeIn 1s steps(4) forwards";

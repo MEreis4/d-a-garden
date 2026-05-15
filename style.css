@@ -82,6 +82,29 @@ body{
   }
 }
 
+  /* Toca-discos */
+  .music-picker{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 100vw;
+    height: 13vh;
+    background-color: aqua;
+    z-index: 4;
+    overflow: hidden;
+  }
+
+  .music-picker .track{
+    position: relative;
+    display: flex;
+    top: 50%;
+    transition: transform 0.5s;
+    transform: translate(0vw);
+    font-size: 3vh;
+  }
+
 /* animações */
 @keyframes megaDriveFadeIn {
   0% {
