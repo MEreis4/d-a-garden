@@ -24,12 +24,13 @@ class Personagem {  // classe base (pai)
 
   // determina a posição do personagem
   render() {
+    if (!teclaSairdoLoading) return;
     if (this.isDead) return;
 
     const flipX = this.scale * this.direcao;
 
     this.element.style.transform = `translate(${this.posX}px, ${this.posY}px) scale(${flipX}, ${this.scale})`;
-    console.log(`Rendering at ${this.posX}, ${this.posY}`);
+    console.log(`Rendering ${this.name} at ${this.posX}, ${this.posY}`);
   }
 
   // checa os limites da borda e "mata" (deleta) o personagem caso tenha passado dela.
@@ -37,7 +38,7 @@ class Personagem {  // classe base (pai)
     const larguraTela = window.innerWidth;
     const alturaTela = window.innerHeight;
     if ( (this.spdX > 0 && this.posX > larguraTela + 1200) || 
-         (this.spdX < 0 && this.posX < -10000) ) {
+         (this.spdX < 0 && this.posX < -larguraTela) ) {
       this.element.remove();
       this.isDead = true;
       this.isRespawning = false;
@@ -65,7 +66,7 @@ class Personagem {  // classe base (pai)
       console.log(virDaEsquerda);
 
       if (virDaEsquerda > 0.5){
-        this.posX = -1000;
+        this.posX = -larguraTela;
         this.spdX = Math.abs(this.spdX); // Garante que a velocidade X seja positiva (vai p/ direita)
         this.direcao = 1; // Olhando para a direita
       } else{
@@ -126,6 +127,7 @@ class Tails extends Personagem {    // classe filha
   }
 
   mover (){
+    if (!teclaSairdoLoading) return;
     if(this.isDead) return;
     
     // momentos das animações
