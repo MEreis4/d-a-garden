@@ -91,7 +91,7 @@ body{
     justify-content: center;
     width: 100vw;
     height: 13vh;
-    background-color: aqua;
+    /* background-color: aqua; */
     z-index: 4;
     overflow: hidden;
   }
@@ -99,10 +99,11 @@ body{
   .music-picker .track{
     position: relative;
     display: flex;
-    top: 50%;
-    transition: transform 0.5s;
-    transform: translate(0vw);
+    transform: translateX(100vw);
+    top: 30%;
+    transition: transform 1s linear ;
     font-size: 3vh;
+    color: white;
   }
 
 /* animações */

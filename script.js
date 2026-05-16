@@ -217,10 +217,10 @@ async function loadingScreen() {
   if (!isLoading) {
     document.addEventListener("keydown", (event) => {
       if (teclaSairdoLoading) return;
-      console.log('Tecla pressionada uma única vez!');
+      console.log("Saindo da tela de Loading");
 
-      teclaSairdoLoading = true;
-      if (event.key === "Enter") {
+      if (event.code === "Enter") {
+        teclaSairdoLoading = true;
         const music = new Audio("audio/dd-present.mp3");
         music.loop = true;
         music.play();

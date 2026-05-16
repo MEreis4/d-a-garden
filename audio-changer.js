@@ -1,3 +1,5 @@
+const track = document.querySelector(".track");
+let isActive = false;
 const songs = [
     {title: "DUBIOUS DEPTHS", file:"audio/dd-present.mp3", era: "present"},
     {title: "PALMTREE PANIC", file:"audio/pp-present.mp3", era: "present"},
@@ -6,12 +8,24 @@ const songs = [
     {title: "COLLISION CHAOS", file:"audio/cc-present.mp3", era: "present"}
 ];
 
-function musicPicker(){
-    if (!isLoading || !teclaSairdoLoading) return;
-
+function activateMusicPicker(){
     document.addEventListener("keydown", (event)=>{
-        if (event.key == "Enter" || event.key == Space){
-            
+        if (!teclaSairdoLoading) return;
+        if (event.code === "Enter" || event.code === "Space"){
+            console.log(event.code + " pressionado");
+            track.style.transform = `translateX(0)`;
+            isActive = true;
         }
     });
 }
+activateMusicPicker();
+
+// function nextTrack(){
+//     document.addEventListener("keydown", (event)=>{
+//         if(teclaSairdoLoading && !isActive) return;
+
+//         if (event.code === "ArrowLeft"){
+            
+//         }
+//     })
+// }
