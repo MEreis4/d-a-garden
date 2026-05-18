@@ -83,7 +83,7 @@ body{
 }
 
   /* Toca-discos */
-  .music-picker{
+  .music-container{
     position: absolute;
     bottom: 0;
     display: flex;
@@ -92,18 +92,24 @@ body{
     width: 100vw;
     height: 13vh;
     /* background-color: aqua; */
-    z-index: 4;
     overflow: hidden;
   }
 
-  .music-picker .track{
+  .music-container .music-picker {
     position: relative;
     display: flex;
-    transform: translateX(100vw);
-    top: 30%;
-    transition: transform 1s linear ;
+    transform: translateX(300vw);
+    transition: transform 1s linear;
     font-size: 3vh;
     color: white;
+  }
+
+  .music-container .music-picker > div{
+    display: flex;
+    flex: 0 0 100vw;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
   }
 
 /* animações */

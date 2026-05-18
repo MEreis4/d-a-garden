@@ -73,6 +73,7 @@ orbitingAnimation();
 //manipulação a rotação do planeta com as setas do teclado
 function adjustPlanetRotation() {
   document.addEventListener("keydown", (event) => {
+    if (isMusicActive) return;
     if (event.key === "ArrowLeft") {
       if (!isRotatingtoLeft) {
         isRotatingtoLeft = true;
